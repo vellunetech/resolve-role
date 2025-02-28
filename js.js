@@ -13,7 +13,6 @@ async function get_conversations() {
             throw new Error('Erro ao buscar conversas');
         }
 
-        // Concert the response to JSON
         const chats = await response.json();
         return chats.conversations;
     } catch (error) {
@@ -55,7 +54,7 @@ async function create_chat() {
         }
         displayChats();
         const data = await response.json();
-        return data.conversation_id; // Retorn the ID from new chat
+        return data.conversation_id;
     } catch (error) {
         console.error('Erro:', error);
         return null;
@@ -98,10 +97,13 @@ async function get_messages_from_a_chat(conversation_id) {
         if (!response.ok) {
             throw new Error(`Erro ao buscar mensagens da conversa ${conversation_id}`);
         }
-
+        const chatMessagesContainer = document.getElementById('messages');
+        chatMessagesContainer.innerHTML = '';
         const messages = await response.json();
         if (messages && messages.messages && messages.messages.length > 0) {
+            console.log("I'm still here")
             messages.messages.forEach(msg => {
+                // console.log(msg.sender, msg.message)
                 print_message(msg.sender, msg.message);
             });
         }
@@ -113,11 +115,14 @@ async function get_messages_from_a_chat(conversation_id) {
 }
 
 // Function to show the messages in the page
-function print_message(user, message) {
-    const chatMessagesContainer = document.getElementById('chat-messages');
+async function print_message(user, message) {
+    const chatMessagesContainer = document.getElementById('messages');
     const messageElement = document.createElement('div');
+    messageElement.classList.add('message');
+
     const messageContent = document.createElement('div');
     messageContent.classList.add('message-content');
+    messageContent.textContent = `${user}: ${message}`;
 
     messageElement.appendChild(messageContent);
     chatMessagesContainer.appendChild(messageElement);
@@ -125,29 +130,73 @@ function print_message(user, message) {
     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
 }
 
-let selectedUser = null;
 
-// Change the global variable user
-document.querySelectorAll('#users_id button').forEach(button => {
-    button.addEventListener('click', () => {
-        selectedUser = button.textContent;
-        console.log(`Usuário selecionado: ${selectedUser}`);
+let selectedUser = "Daniel";
+let buttons;
+
+// Function to update the selected user
+function updateSelection(button) {
+    buttons.forEach(b => b.style.backgroundColor = '#ffffff62');
+    button.style.backgroundColor = "#d98be9be";
+    ;
+}
+
+window.addEventListener('load', () => {
+    buttons = document.querySelectorAll('#users_id button');
+
+
+    const defaultButton = buttons[0];
+    updateSelection(defaultButton);
+
+    // Inicialize o valor de selectedUser
+    selectedUser = defaultButton.textContent;
+    console.log(`Usuário selecionado: ${selectedUser}`);
+
+    // Adicione os eventos de clique para os botões
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Atualiza a seleção de cor
+            updateSelection(button);
+
+            // Atualiza o usuário global
+            selectedUser = button.textContent;
+            console.log(`Usuário selecionado: ${selectedUser}`);
+        });
     });
 });
 
 
-// Event when select "Enviar" buttom
-document.getElementById('send-button').addEventListener('click', () => {
-    // console.log('Botão "Enviar" clicado'); 
+
+// Event when selecting "Enviar" button
+document.getElementById('send-button').addEventListener('click', async () => {
+    const messageInput = document.getElementById('user-input');
+    const message = messageInput.value.trim();
+    const response = await bot_message(message);
+
+    if (message === "") {
+        return;
+    }
+
     print_message(selectedUser, message);
+    print_message("Bot", response.message);
+    messageInput.value = "";
 });
 
+
 // Event when press "Enter"
-document.getElementById('user-input').addEventListener('keypress', (event) => {
+document.getElementById('user-input').addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
-        // console.log('Tecla "Enter" pressionada');
-        event.preventDefault();
+        const messageInput = document.getElementById('user-input');
+        const message = messageInput.value.trim();
+        const response = await bot_message(message);
+
+        if (message === "") {
+            return;
+        }
+
         print_message(selectedUser, message);
+        print_message("Bot", response.message);
+        messageInput.value = "";
     }
 });
 
