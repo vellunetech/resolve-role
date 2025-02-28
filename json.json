@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "messages": [
+            {
+                "sender": "User",
+                "message": "Oi, tudo bem?"
+            },
+            {
+                "sender": "Bot",
+                "message": "Olá! Tudo bem e você?"
+            },
+            {
+                "sender": "User",
+                "message": "Estou bem, obrigado!"
+            },
+            {
+                "sender": "Bot",
+                "message": "Que bom! Como posso te ajudar hoje?"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "messages": [
+            {
+                "sender": "User",
+                "message": "Qual o tempo em Nova York hoje?"
+            },
+            {
+                "sender": "Bot",
+                "message": "Deixe-me verificar para você."
+            },
+            {
+                "sender": "Bot",
+                "message": "O tempo em Nova York está parcialmente nublado e com temperaturas ao redor de 12°C."
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "messages": [
+            {
+                "sender": "User",
+                "message": "Me fale sobre a empresa Vellune."
+            },
+            {
+                "sender": "Bot",
+                "message": "A Vellune é uma empresa de tecnologia focada em inovação e soluções digitais."
+            },
+            {
+                "sender": "User",
+                "message": "Legal, gostei. O que mais ela faz?"
+            }
+        ]
+    }
+]
