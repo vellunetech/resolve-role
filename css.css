@@ -104,3 +104,13 @@ body {
 #new_chat:hover {
     background-color: #ffffffbe;
 }
+
+#users_id button {
+    transition: background-color 0.3s ease;
+    /* Adiciona uma transição suave */
+}
+
+#users_id button:active {
+    background-color: #d98be9be;
+    /* Garantir que o botão continue branco ao ser clicado */
+}
