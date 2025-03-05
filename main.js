@@ -1,3 +1,5 @@
+let ChatWorking = false;
+
 // Function to do a GET solicitation to get the disponible conversations (att all)
 async function get_conversations() {
     try {
@@ -63,6 +65,8 @@ async function create_chat() {
 
 // Function to do a POST solicitation sending a message and receiving a ChatBot message
 async function bot_message(message) {
+    ChatWorking = true;
+    showLoading();
     try {
         const response = await fetch(`http://127.0.0.1:8000/message/`, {
             method: 'POST',
@@ -77,9 +81,13 @@ async function bot_message(message) {
         }
 
         const messages = await response.json();
+        ChatWorking = false
+        hideLoading();
         return messages;
     } catch (error) {
         console.error('Erro:', error);
+        ChatWorking = false;
+        hideLoading();
         return null;
     }
 }
@@ -101,9 +109,7 @@ async function get_messages_from_a_chat(conversation_id) {
         chatMessagesContainer.innerHTML = '';
         const messages = await response.json();
         if (messages && messages.messages && messages.messages.length > 0) {
-            console.log("I'm still here")
             messages.messages.forEach(msg => {
-                // console.log(msg.sender, msg.message)
                 print_message(msg.sender, msg.message);
             });
         }
@@ -118,18 +124,34 @@ async function get_messages_from_a_chat(conversation_id) {
 async function print_message(user, message) {
     const chatMessagesContainer = document.getElementById('messages');
     const messageElement = document.createElement('div');
-    messageElement.classList.add('message');
+
+    if (user === "Bot") {
+        messageElement.classList.add('message', 'bot-message');
+    } else {
+        messageElement.classList.add('message', 'user-message');
+    }
+
+    const userName = document.createElement('div');
+    userName.classList.add('message-user');
+    userName.textContent = user;
+
+    if (user === "Bot") {
+        userName.classList.add('bot-username');
+    } else {
+        userName.classList.add('user-username');
+    }
 
     const messageContent = document.createElement('div');
     messageContent.classList.add('message-content');
-    messageContent.textContent = `${user}: ${message}`;
+    messageContent.textContent = message;
 
+    messageElement.appendChild(userName);
     messageElement.appendChild(messageContent);
     chatMessagesContainer.appendChild(messageElement);
 
+
     chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
 }
-
 
 let selectedUser = "Daniel";
 let buttons;
@@ -141,16 +163,15 @@ function updateSelection(button) {
     ;
 }
 
+
 window.addEventListener('load', () => {
     buttons = document.querySelectorAll('#users_id button');
-
 
     const defaultButton = buttons[0];
     updateSelection(defaultButton);
 
     // Inicialize o valor de selectedUser
     selectedUser = defaultButton.textContent;
-    console.log(`Usuário selecionado: ${selectedUser}`);
 
     // Adicione os eventos de clique para os botões
     buttons.forEach(button => {
@@ -160,7 +181,6 @@ window.addEventListener('load', () => {
 
             // Atualiza o usuário global
             selectedUser = button.textContent;
-            console.log(`Usuário selecionado: ${selectedUser}`);
         });
     });
 });
@@ -169,6 +189,12 @@ window.addEventListener('load', () => {
 
 // Event when selecting "Enviar" button
 document.getElementById('send-button').addEventListener('click', async () => {
+    // If the Chatworking is true do nothing
+    if (ChatWorking) return;
+
+    // Stop the input option
+    toggleSendButton(false);
+
     // Save the current user
     const currentUser = selectedUser;
 
@@ -192,12 +218,20 @@ document.getElementById('send-button').addEventListener('click', async () => {
     const response = await bot_message(message);
     print_message("Bot", response.message);
 
+    // Turn possible a new input
+    toggleSendButton(true);
 });
 
 
 // Event when press "Enter"
 document.getElementById('user-input').addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
+        // If the Chatworking is true do nothing
+        if (ChatWorking) return;
+
+        // Stop the input option
+        toggleSendButton(false);
+
         // Save the current user
         const currentUser = selectedUser;
 
@@ -221,6 +255,8 @@ document.getElementById('user-input').addEventListener('keypress', async (event)
         const response = await bot_message(message);
         print_message("Bot", response.message);
 
+        // Turn possible a new input
+        toggleSendButton(true);
     }
 });
 
@@ -232,3 +268,33 @@ document.addEventListener('DOMContentLoaded', function () {
     displayChats();
 });
 
+// Function to call the loading animation 
+function showLoading() {
+    let loader = document.getElementById("loading-animation");
+    if (loader) {
+        loader.classList.remove("hidden");
+    }
+}
+
+// Function to stop the loading animation
+function hideLoading() {
+    let loader = document.getElementById("loading-animation");
+    if (loader) {
+        loader.classList.add("hidden");
+    }
+}
+
+// Function to desanabe the "Enviar" button
+function toggleSendButton(enabled) {
+    const sendButton = document.getElementById('send-button');
+
+    if (enabled) {
+        sendButton.disabled = false;
+        sendButton.style.backgroundColor = "#ffffff62";
+        sendButton.style.cursor = "pointer";
+    } else {
+        sendButton.disabled = true;
+        sendButton.style.backgroundColor = "#888888";
+        sendButton.style.cursor = "not-allowed";
+    }
+}

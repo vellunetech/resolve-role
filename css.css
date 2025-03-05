@@ -70,10 +70,55 @@ body {
 }
 
 #messages {
-    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     padding: 10px;
     overflow-y: auto;
-    background-color: white;
+    height: 100%;
+}
+
+.message {
+    max-width: 70%;
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 14px;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.message-user {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+
+.bot-username {
+    color: rgb(129, 3, 129);
+}
+
+.user-username {
+    color: black;
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: #b1b1b1;
+    color: white;
+    border-radius: 10px 10px 0 10px;
+    padding: 10px;
+}
+
+
+.bot-message {
+    align-self: flex-start;
+    background-color: #c77cf3;
+    color: black;
+    border-radius: 10px 10px 10px 0;
+    padding: 10px;
 }
 
 #input-area {
@@ -107,10 +152,42 @@ body {
 
 #users_id button {
     transition: background-color 0.3s ease;
-    /* Adiciona uma transição suave */
 }
 
 #users_id button:active {
     background-color: #d98be9be;
-    /* Garantir que o botão continue branco ao ser clicado */
+}
+
+.hidden {
+    display: none !important;
+}
+
+#loading-animation {
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 1%;
+    left: 1%;
+    background: rgba(255, 255, 255, 0);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.spinner {
+    width: 10px;
+    height: 10px;
+    border: 4px solid #40004d;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
