@@ -169,34 +169,58 @@ window.addEventListener('load', () => {
 
 // Event when selecting "Enviar" button
 document.getElementById('send-button').addEventListener('click', async () => {
+    // Save the current user
+    const currentUser = selectedUser;
+
+    // Collect the user message at input bar
     const messageInput = document.getElementById('user-input');
+
+    // Verify if the message is valid
     const message = messageInput.value.trim();
-    const response = await bot_message(message);
 
     if (message === "") {
         return;
     }
 
-    print_message(selectedUser, message);
-    print_message("Bot", response.message);
+    // Clean the input space
     messageInput.value = "";
+
+    // Print message
+    print_message(currentUser, message);
+
+    // Print the bot answer
+    const response = await bot_message(message);
+    print_message("Bot", response.message);
+
 });
 
 
 // Event when press "Enter"
 document.getElementById('user-input').addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
+        // Save the current user
+        const currentUser = selectedUser;
+
+        // Collect the user message at input bar
         const messageInput = document.getElementById('user-input');
+
+        // Verify if the message is valid
         const message = messageInput.value.trim();
-        const response = await bot_message(message);
 
         if (message === "") {
             return;
         }
 
-        print_message(selectedUser, message);
-        print_message("Bot", response.message);
+        // Clean the input space
         messageInput.value = "";
+
+        // Print message
+        print_message(currentUser, message);
+
+        // Print the bot answer
+        const response = await bot_message(message);
+        print_message("Bot", response.message);
+
     }
 });
 

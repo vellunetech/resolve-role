@@ -24,7 +24,7 @@ app.add_middleware(
 # Função para carregar as conversas do arquivo JSON
 def load_conversations():
     try:
-        with open("json.json", "r") as file:
+        with open("example_chats.json", "r") as file:
             return json.load(file)
     except FileNotFoundError:
         return []
