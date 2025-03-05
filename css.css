@@ -21,6 +21,7 @@ body {
 
 .id_options {
     display: flex;
+    align-items: center;
     flex-direction: column;
     width: 250px;
     background-color: black;
@@ -29,7 +30,6 @@ body {
     overflow-y: auto;
 }
 
-#chats_id,
 #users_id {
     margin-bottom: 20px;
 }
@@ -43,8 +43,7 @@ body {
 }
 
 #chats_id button,
-#users_id button,
-#new_chat {
+#users_id button {
     text-align: center;
     width: 100%;
     padding: 10px;
@@ -55,6 +54,21 @@ body {
     border-radius: 5px;
     cursor: pointer;
     text-align: left;
+}
+
+#new_chat {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background-color: #ffffff62;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
 }
 
 #chats_id button:hover,
@@ -69,6 +83,7 @@ body {
     background-color: #ece5dd;
 }
 
+/* Container das mensagens */
 #messages {
     position: relative;
     display: flex;
@@ -79,6 +94,7 @@ body {
     height: 100%;
 }
 
+/* Estilo base para todas as mensagens */
 .message {
     max-width: 70%;
     padding: 8px;
@@ -89,21 +105,25 @@ body {
     flex-direction: column;
 }
 
-
+/* Nome do usuário acima da mensagem */
 .message-user {
     font-weight: bold;
+    /* Deixa todos os nomes em negrito */
     font-size: 12px;
     margin-bottom: 3px;
 }
 
+/* Nome do usuário BOT (roxo) */
 .bot-username {
     color: rgb(129, 3, 129);
 }
 
+/* Nome dos demais usuários (preto) */
 .user-username {
     color: black;
 }
 
+/* Mensagem do usuário (alinhada à direita) */
 .user-message {
     align-self: flex-end;
     background-color: #b1b1b1;
@@ -112,7 +132,7 @@ body {
     padding: 10px;
 }
 
-
+/* Mensagem do bot (alinhada à esquerda) */
 .bot-message {
     align-self: flex-start;
     background-color: #c77cf3;
@@ -152,10 +172,12 @@ body {
 
 #users_id button {
     transition: background-color 0.3s ease;
+    /* Adiciona uma transição suave */
 }
 
 #users_id button:active {
     background-color: #d98be9be;
+    /* Garantir que o botão continue branco ao ser clicado */
 }
 
 .hidden {
@@ -163,11 +185,13 @@ body {
 }
 
 #loading-animation {
+    /* display: flex; */
     align-items: center;
     justify-content: center;
     position: absolute;
     bottom: 1%;
     left: 1%;
+    /* transform: translate(-50%, -50%); */
     background: rgba(255, 255, 255, 0);
     padding: 20px;
     border-radius: 10px;
