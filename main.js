@@ -1,16 +1,23 @@
 let ChatWorking = false;
 const coresHex = [
-    "#FF5733", // Vermelho alaranjado
-    "#33FF57", // Verde brilhante
-    "#3357FF", // Azul forte
-    "#FF33A8", // Rosa choque
-    "#A833FF", // Roxo vibrante
-    "#33FFF5", // Ciano claro
-    "#FFD700", // Dourado
-    "#FF4500", // Laranja avermelhado
-    "#008000", // Verde escuro
-    "#4B0082"  // Índigo
+    "#99341f", // Vermelho alaranjado escuro
+    "#1f9934", // Verde escuro
+    "#1f3499", // Azul escuro
+    "#991f65", // Rosa escuro
+    "#1f9993", // Ciano escuro
+    "#996b00", // Dourado escuro
+    "#992d00", // Laranja avermelhado escuro
+    "#005000", // Verde mais escuro
+    "#32005c"  // Índigo escuro
 ];
+
+
+const lightPurple = "#ADA0FA";
+const darkPurple = "#7666BE";
+const white = "#FFFFFF";
+const lightGray = "#E6E6E6";
+const black = "#000000";
+
 let userList = [];
 
 // MAKE CHATS AVAILABLE//
@@ -62,13 +69,11 @@ function selectChat(chatId) {
     const chatContainer = document.getElementById("chats_id");
     const buttons = chatContainer.querySelectorAll("button");
 
-    buttons.forEach(btn => {
-        btn.style.backgroundColor = "#888888";
-    });
+    buttons.forEach(btn => btn.classList.remove("active"));
 
     const selectedButton = document.getElementById(chatId);
     if (selectedButton) {
-        selectedButton.style.backgroundColor = "#d98be9be";
+        selectedButton.classList.add("active");
         activeChatButton = selectedButton;
     } else {
         console.error(`Botão com ID ${chatId} não encontrado.`);
@@ -166,6 +171,9 @@ async function print_message(user, message, cor) {
     messageContent.classList.add('message-content');
     messageContent.textContent = message;
 
+    const highlightedMessage = message.replace(/(Vellune|vellune)/gi, '<span class="highlighted-word">$1</span>');
+    messageContent.innerHTML = highlightedMessage;
+
     messageElement.appendChild(userName);
     messageElement.appendChild(messageContent);
     chatMessagesContainer.appendChild(messageElement);
@@ -181,9 +189,11 @@ let buttons;
 
 // Function to update the selected user
 function updateSelection(button) {
-    buttons.forEach(b => b.style.backgroundColor = '#ffffff62');
-    button.style.backgroundColor = "#d98be9be";
-    ;
+    buttons.forEach(b => b.style.backgroundColor = lightPurple);
+    buttons.forEach(b => b.style.color = white);
+    button.style.backgroundColor = lightGray;
+    button.style.color = black;
+
 }
 
 // Function that gives a features for the users' buttons
@@ -239,9 +249,6 @@ document.getElementById('send-button').addEventListener('click', async () => {
     // If the Chatworking is true do nothing
     if (ChatWorking) return;
 
-    // Stop the input option
-    toggleSendButton(false);
-
     // Save the current user
     const currentUser = selectedUser;
 
@@ -254,6 +261,9 @@ document.getElementById('send-button').addEventListener('click', async () => {
     if (message === "") {
         return;
     }
+
+    // Stop the input option
+    toggleSendButton(false);
 
     // Clean the input space
     messageInput.value = "";
@@ -278,9 +288,6 @@ document.getElementById('user-input').addEventListener('keypress', async (event)
         // If the Chatworking is true do nothing
         if (ChatWorking) return;
 
-        // Stop the input option
-        toggleSendButton(false);
-
         // Save the current user
         const currentUser = selectedUser;
 
@@ -294,15 +301,16 @@ document.getElementById('user-input').addEventListener('keypress', async (event)
             return;
         }
 
+        // Stop the input option
+        toggleSendButton(false);
+
         // Clean the input space
         messageInput.value = "";
-
         if (!userList.includes(currentUser)) {
             userList.push(currentUser);
         }
         // Print message
         print_message(currentUser, message, coresHex[userList.indexOf(currentUser)]);
-
 
         // Print the bot answer
         const response = await bot_message(message);
@@ -336,12 +344,12 @@ function toggleSendButton(enabled) {
 
     if (enabled) {
         sendButton.disabled = false;
-        sendButton.style.backgroundColor = "#ffffff62";
+        sendButton.style.backgroundColor = lightGray;
         sendButton.style.cursor = "pointer";
         document.removeEventListener("keydown", preventEnterKey);
     } else {
         sendButton.disabled = true;
-        sendButton.style.backgroundColor = "#888888";
+        sendButton.style.backgroundColor = lightPurple;
         sendButton.style.cursor = "not-allowed";
         document.addEventListener("keydown", preventEnterKey);
     }

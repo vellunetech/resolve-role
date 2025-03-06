@@ -3,20 +3,24 @@
         "id": 1,
         "messages": [
             {
-                "sender": "User",
-                "message": "Oi, tudo bem?"
+                "sender": "Daniel",
+                "message": "Vocês já conhecem a Vellune?"
+            },
+            {
+                "sender": "Pedro",
+                "message": "Claro que sim, nós criamos!"
             },
             {
                 "sender": "Bot",
-                "message": "Olá! Tudo bem e você?"
+                "message": "Eu conheço essa empresa!"
             },
             {
-                "sender": "User",
-                "message": "Estou bem, obrigado!"
+                "sender": "Gabriel",
+                "message": "E seguimos otimizando para ficar ainda mais rápida."
             },
             {
                 "sender": "Bot",
-                "message": "Que bom! Como posso te ajudar hoje?"
+                "message": "🚀 Vellune: entregando software de qualidade lunar em alta velocidade! 🚀"
             }
         ]
     },
