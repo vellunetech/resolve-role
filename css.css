@@ -17,6 +17,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
+    position: relative;
 }
 
 .id_options {
@@ -81,9 +82,9 @@ body {
     display: flex;
     flex-direction: column;
     background-color: #ece5dd;
+    position: relative;
 }
 
-/* Container das mensagens */
 #messages {
     position: relative;
     display: flex;
@@ -94,7 +95,7 @@ body {
     height: 100%;
 }
 
-/* Estilo base para todas as mensagens */
+
 .message {
     max-width: 70%;
     padding: 8px;
@@ -105,25 +106,23 @@ body {
     flex-direction: column;
 }
 
-/* Nome do usuário acima da mensagem */
+
 .message-user {
     font-weight: bold;
-    /* Deixa todos os nomes em negrito */
     font-size: 12px;
     margin-bottom: 3px;
 }
 
-/* Nome do usuário BOT (roxo) */
+
 .bot-username {
     color: rgb(129, 3, 129);
 }
 
-/* Nome dos demais usuários (preto) */
+
 .user-username {
     color: black;
 }
 
-/* Mensagem do usuário (alinhada à direita) */
 .user-message {
     align-self: flex-end;
     background-color: #b1b1b1;
@@ -132,7 +131,6 @@ body {
     padding: 10px;
 }
 
-/* Mensagem do bot (alinhada à esquerda) */
 .bot-message {
     align-self: flex-start;
     background-color: #c77cf3;
@@ -172,12 +170,11 @@ body {
 
 #users_id button {
     transition: background-color 0.3s ease;
-    /* Adiciona uma transição suave */
+
 }
 
 #users_id button:active {
     background-color: #d98be9be;
-    /* Garantir que o botão continue branco ao ser clicado */
 }
 
 .hidden {
@@ -185,21 +182,21 @@ body {
 }
 
 #loading-animation {
-    /* display: flex; */
+    position: absolute;
+    bottom: 10%;
+    left: 2%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    bottom: 1%;
-    left: 1%;
-    /* transform: translate(-50%, -50%); */
     background: rgba(255, 255, 255, 0);
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
 }
 
+
 .spinner {
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 20px;
     border: 4px solid #40004d;
     border-top: 4px solid transparent;
     border-radius: 50%;
